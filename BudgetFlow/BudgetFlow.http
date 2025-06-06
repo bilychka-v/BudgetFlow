@@ -1,0 +1,5 @@
+@BudgetFlow_HostAddress = http://localhost:5236
+
+Accept: application/json
+
+###
