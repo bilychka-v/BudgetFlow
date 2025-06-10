@@ -1,23 +1,15 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
+﻿# Етап 1: build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["BudgetFlow/BudgetFlow.csproj", "BudgetFlow/"]
-RUN dotnet restore "BudgetFlow/BudgetFlow.csproj"
+COPY ["BudgetFlow.csproj", "."]
+RUN dotnet restore "BudgetFlow.csproj"
 COPY . .
-WORKDIR "/src/BudgetFlow"
-RUN dotnet build "BudgetFlow.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR /src
+RUN dotnet publish "BudgetFlow.csproj" -c Release -o /app/publish
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "BudgetFlow.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
+# Етап 2: final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "BudgetFlow.dll"]
+
