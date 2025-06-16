@@ -1,15 +1,19 @@
-﻿# Етап 1: build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["BudgetFlow.csproj", "."]
+
+COPY BudgetFlow/BudgetFlow.csproj BudgetFlow/
+COPY Db/Db.csproj Db/
+
+WORKDIR /src/BudgetFlow
 RUN dotnet restore "BudgetFlow.csproj"
-COPY . .
+
 WORKDIR /src
+COPY . .
+
+WORKDIR /src/BudgetFlow
 RUN dotnet publish "BudgetFlow.csproj" -c Release -o /app/publish
 
-# Етап 2: final
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "BudgetFlow.dll"]
-

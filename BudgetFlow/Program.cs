@@ -1,3 +1,6 @@
+using Db;
+using Microsoft.EntityFrameworkCore;
+
 namespace BudgetFlow;
 
 public class Program
@@ -5,6 +8,10 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        
+        builder.Services.AddDbContext<DataContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectBd")));
+
 
         // Add services to the container.
         builder.Services.AddAuthorization();
@@ -12,7 +19,6 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        
         
 
         var app = builder.Build();
