@@ -3446,11 +3446,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/BudgetFlow/BudgetFlow.csproj",
-      "projectName": "BudgetFlow",
-      "projectPath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/BudgetFlow/BudgetFlow.csproj",
+      "projectUniqueName": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Api/Api.csproj",
+      "projectName": "Api",
+      "projectPath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Api/Api.csproj",
       "packagesPath": "/Users/viktoriyabilyk/.nuget/packages/",
-      "outputPath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/BudgetFlow/obj/",
+      "outputPath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/viktoriyabilyk/.nuget/NuGet/NuGet.Config"

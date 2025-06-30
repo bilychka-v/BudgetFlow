@@ -9,16 +9,22 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         
+        // builder.WebHost.UseUrls("http://localhost:5236");
+
+        
         builder.Services.AddDbContext<DataContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectBd")));
 
 
         // Add services to the container.
         builder.Services.AddAuthorization();
-
+        
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        
+        builder.Services.AddControllers();
+        
         
 
         var app = builder.Build();
@@ -30,9 +36,10 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        app.MapControllers();
         
 
         app.Run();

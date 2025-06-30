@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bqxuw+eNfMg=",
+  "dgSpecHash": "7HOWArB6SiM=",
   "success": true,
-  "projectFilePath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/BudgetFlow/BudgetFlow.csproj",
+  "projectFilePath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Api/Api.csproj",
   "expectedPackageFiles": [
     "/Users/viktoriyabilyk/.nuget/packages/dbcontext/1.0.0/dbcontext.1.0.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetFlow", "BudgetFlow\BudgetFlow.csproj", "{8304F8A3-0893-4C1D-B05E-8D8EE09E9C3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{8304F8A3-0893-4C1D-B05E-8D8EE09E9C3F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{AF6B5AAD-B3E5-4106-8A02-219739B53A92}"
 EndProject
