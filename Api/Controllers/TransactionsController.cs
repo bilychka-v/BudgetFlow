@@ -25,7 +25,8 @@ public class TransactionsController : ControllerBase
             Id: t.Id,
             UserId: t.UserId,
             Amount: t.Amount,
-            Date: t.Date)
+            Date: t.Date
+            )
         ).ToList();
         return Ok(response);
     }
@@ -35,6 +36,9 @@ public class TransactionsController : ControllerBase
     {
         if(transactionDto.Amount <= 0)
             return BadRequest("Amount cannot be negative or equal to zero");
+        
+        if(transactionDto.Date > DateTime.Now)
+            return BadRequest("Date cannot be later than today");
 
         var transaction = new Transaction
         {
@@ -70,7 +74,7 @@ public class TransactionsController : ControllerBase
         }
         
         transactionUpdate.Amount = transaction.Amount > 0 ? transaction.Amount : transactionUpdate.Amount;
-        transactionUpdate.Date = transaction.Date;
+        transactionUpdate.Date = transaction.Date > DateTime.Now ? transaction.Date : transactionUpdate.Date;
         
         await _context.SaveChangesAsync();
         
