@@ -53,10 +53,11 @@ public class TransactionsController : ControllerBase
         
         var response = new TransactionDto
         (
-            Id : transaction.Id, 
-            UserId : transaction.UserId, 
-            Amount : transaction.Amount, 
-            Date : transaction.Date
+            transaction.Id, 
+            transaction.UserId, 
+            transaction.Date,
+            transaction.Amount
+            
         );
         
         return Ok(response);
@@ -80,10 +81,10 @@ public class TransactionsController : ControllerBase
         
         var response = new TransactionDto
         (
-            Id : transactionUpdate.Id, 
-            UserId : transactionUpdate.UserId, 
-            Amount : transactionUpdate.Amount, 
-            Date : transactionUpdate.Date
+            transactionUpdate.Id, 
+            transactionUpdate.UserId, 
+            transactionUpdate.Date,
+            transactionUpdate.Amount
         );
 
         return Ok(response);
@@ -93,7 +94,7 @@ public class TransactionsController : ControllerBase
     [Route("{id}")]
     public async Task <IActionResult> DeleteTransaction([FromRoute] Guid id)
     {
-        var transaction =await  _context.Transactions.FirstOrDefaultAsync(s => s.Id == id);
+        var transaction = await  _context.Transactions.FirstOrDefaultAsync(s => s.Id == id);
         if(transaction == null)
             return NotFound();
         
@@ -102,5 +103,4 @@ public class TransactionsController : ControllerBase
         
         return NoContent();
     }
-    
 }
