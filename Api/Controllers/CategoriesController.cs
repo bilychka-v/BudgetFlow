@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetFlow.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public class CategoriesController:ControllerBase
@@ -91,6 +92,4 @@ public class CategoriesController:ControllerBase
         
         return NoContent();
     }
-
-    
 }
