@@ -5,4 +5,6 @@ namespace Application.Interfaces;
 public interface ITransactionService
 {
     Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync(Guid userId);
+    Task<TransactionDto> GetTransactionAsync(Guid userId, Guid id);
+    Task<TransactionDto> AddTransactionAsync(Guid userId, TransactionDto transaction);
 }
