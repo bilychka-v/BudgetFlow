@@ -5,7 +5,7 @@ using Domain;
 
 namespace Application.Services;
 
-public class TransactionService:ITransactionService
+public class TransactionService : ITransactionService
 {
     private readonly ITransactionRepository _repository;
     public TransactionService(ITransactionRepository repository)
@@ -47,7 +47,7 @@ public class TransactionService:ITransactionService
         return transactionDto;
     }
 
-    public async Task<TransactionDto> AddTransactionAsync(Guid userId, TransactionDto transactionDto)
+    public async Task<TransactionDto> AddTransactionAsync(Guid userId, CreateTransactionDto transactionDto)
     {
         var transaction = new Transaction
         {
@@ -64,7 +64,8 @@ public class TransactionService:ITransactionService
                 transaction.Id, 
                 transaction.UserId, 
                 transaction.Date, 
-                transaction.Amount);
+                transaction.Amount
+            );
         
         return newTransactionDto;
     }

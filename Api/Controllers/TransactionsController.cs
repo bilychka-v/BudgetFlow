@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using BudgetFlow.Dtos;
 using Db;
 using Domain;
@@ -11,24 +12,20 @@ namespace BudgetFlow.Controllers;
 public class TransactionsController : ControllerBase
 {
     private readonly DataContext _context;
+    private readonly ITransactionService _transactionService;
     
-    public TransactionsController(DataContext context)
+    public TransactionsController(DataContext context,  ITransactionService transactionService)
     {
         _context = context;
+        _transactionService = transactionService;
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetTransactions()
+    [Route("{userId}")]
+    public async Task<IActionResult> GetTransactions([FromRoute] Guid userId)
     {
-        var transactions = await _context.Transactions.ToListAsync();
-        var response = transactions.Select(t => new TransactionDto(
-            Id: t.Id,
-            UserId: t.UserId,
-            Amount: t.Amount,
-            Date: t.Date
-            )
-        ).ToList();
-        return Ok(response);
+        var transactions = await _transactionService.GetAllTransactionsAsync(userId);
+        return Ok(transactions);
     }
 
     [HttpPost]
@@ -39,28 +36,11 @@ public class TransactionsController : ControllerBase
         
         if(transactionDto.Date > DateTime.Now)
             return BadRequest("Date cannot be later than today");
-
-        var transaction = new Transaction
-        {
-            Id = Guid.NewGuid(),
-            UserId = transactionDto.UserId,
-            Amount = transactionDto.Amount,
-            Date = transactionDto.Date
-        };
         
-        await _context.Transactions.AddAsync(transaction);
-        await _context.SaveChangesAsync();
         
-        var response = new TransactionDto
-        (
-            transaction.Id, 
-            transaction.UserId, 
-            transaction.Date,
-            transaction.Amount
-            
-        );
+        await _transactionService.AddTransactionAsync(transactionDto.UserId, transactionDto);
         
-        return Ok(response);
+        return Ok(transactionDto);
     }
 
     [HttpPut]

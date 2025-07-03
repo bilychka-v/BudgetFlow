@@ -1,5 +1,9 @@
 using Db;
+using Domain;
 using Microsoft.EntityFrameworkCore;
+using Application.Services;
+using Application.Repositories;
+using Application.Interfaces;
 
 namespace BudgetFlow;
 
@@ -24,6 +28,11 @@ public class Program
         builder.Services.AddSwaggerGen();
         
         builder.Services.AddControllers();
+        
+        
+        builder.Services.AddScoped<ITransactionService, TransactionService>();
+        builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+        
         
         
 
