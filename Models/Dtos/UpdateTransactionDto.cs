@@ -2,5 +2,6 @@ namespace BudgetFlow.Dtos;
 
 public record UpdateTransactionDto(
     DateTime Date,
-    decimal Amount
+    decimal Amount,
+    Guid CategoryId
     );

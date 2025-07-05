@@ -20,7 +20,7 @@ public class TransactionRepository: ITransactionRepository
         return await _context.Transactions.Where(t=>t.UserId == userId).ToListAsync();
     }
 
-    public async Task<Transaction?> GetByIdAsync(Guid transactionId)
+    public async Task<Transaction> GetByIdAsync(Guid transactionId)
     {
         var transaction = await _context.Transactions.FirstOrDefaultAsync(t=> t.Id == transactionId);
         return transaction;
@@ -30,6 +30,12 @@ public class TransactionRepository: ITransactionRepository
     {
         await _context.Transactions.AddAsync(transaction);
         await _context.SaveChangesAsync();
+        return transaction;
+    }
+
+    public async Task<Transaction> UpdateAsync(Transaction transaction)
+    {
+        _context.Transactions.Update(transaction);
         return transaction;
     }
 }

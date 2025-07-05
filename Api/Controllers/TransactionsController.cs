@@ -38,16 +38,16 @@ public class TransactionsController : ControllerBase
             return BadRequest("Date cannot be later than today");
         
         
-        await _transactionService.AddTransactionAsync(transactionDto.UserId, transactionDto);
+        var createdTransactionsDto = await _transactionService.AddTransactionAsync(transactionDto.UserId, transactionDto);
         
-        return Ok(transactionDto);
+        return Ok(createdTransactionsDto);
     }
 
     [HttpPut]
     [Route("{id}")]
     public async Task <IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] UpdateTransactionDto transaction)
     {
-        var transactionUpdate = await  _context.Transactions.FirstOrDefaultAsync(s=>s.Id==id);
+        var transactionUpdate = await _context.Transactions.Include(transaction => transaction.Category).FirstOrDefaultAsync(s=>s.Id==id);
         
         if (transactionUpdate == null)
         {
@@ -64,7 +64,8 @@ public class TransactionsController : ControllerBase
             transactionUpdate.Id, 
             transactionUpdate.UserId, 
             transactionUpdate.Date,
-            transactionUpdate.Amount
+            transactionUpdate.Amount,
+            transactionUpdate.Category.Name
         );
 
         return Ok(response);
