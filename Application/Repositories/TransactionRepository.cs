@@ -17,12 +17,16 @@ public class TransactionRepository: ITransactionRepository
 
     public async Task<IEnumerable<Transaction>> GetAllAsync(Guid userId)
     {
-        return await _context.Transactions.Where(t=>t.UserId == userId).ToListAsync();
+        return await _context.Transactions
+            .Where(t=>t.UserId == userId)
+            .Include(t=>t.Category)
+            .ToListAsync();
     }
 
     public async Task<Transaction> GetByIdAsync(Guid transactionId)
     {
         var transaction = await _context.Transactions.FirstOrDefaultAsync(t=> t.Id == transactionId);
+        
         return transaction;
     }
 
@@ -30,12 +34,23 @@ public class TransactionRepository: ITransactionRepository
     {
         await _context.Transactions.AddAsync(transaction);
         await _context.SaveChangesAsync();
+        
         return transaction;
     }
 
     public async Task<Transaction> UpdateAsync(Transaction transaction)
     {
         _context.Transactions.Update(transaction);
+        
+        await _context.SaveChangesAsync();
         return transaction;
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var transaction = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == id);
+        
+        _context.Transactions.Remove(transaction);
+        await _context.SaveChangesAsync();
     }
 }

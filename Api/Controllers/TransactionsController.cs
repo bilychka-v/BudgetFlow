@@ -1,9 +1,6 @@
 using Application.Interfaces;
 using BudgetFlow.Dtos;
-using Db;
-using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BudgetFlow.Controllers;
 
@@ -11,12 +8,10 @@ namespace BudgetFlow.Controllers;
 [Route("api/[controller]")]
 public class TransactionsController : ControllerBase
 {
-    private readonly DataContext _context;
     private readonly ITransactionService _transactionService;
     
-    public TransactionsController(DataContext context,  ITransactionService transactionService)
+    public TransactionsController(ITransactionService transactionService)
     {
-        _context = context;
         _transactionService = transactionService;
     }
     
@@ -39,49 +34,33 @@ public class TransactionsController : ControllerBase
         
         
         var createdTransactionsDto = await _transactionService.AddTransactionAsync(transactionDto.UserId, transactionDto);
-        
-        return Ok(createdTransactionsDto);
+        // Status 201 Created
+        return CreatedAtAction(nameof(GetTransactions), new { userId = createdTransactionsDto.UserId }, createdTransactionsDto);
+
     }
 
     [HttpPut]
-    [Route("{id}")]
-    public async Task <IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] UpdateTransactionDto transaction)
+    [Route("{userId}/{id}")]
+    public async Task <IActionResult> UpdateTransaction([FromRoute] Guid userId, [FromRoute] Guid id, [FromBody] UpdateTransactionDto transaction)
     {
-        var transactionUpdate = await _context.Transactions.Include(transaction => transaction.Category).FirstOrDefaultAsync(s=>s.Id==id);
+        if(!ModelState.IsValid)
+            return BadRequest();
+        
+        var transactionUpdate = await _transactionService.UpdateTransactionAsync(userId, id, transaction);
         
         if (transactionUpdate == null)
         {
             return NotFound();
         }
-        
-        transactionUpdate.Amount = transaction.Amount > 0 ? transaction.Amount : transactionUpdate.Amount;
-        transactionUpdate.Date = transaction.Date > DateTime.Now ? transaction.Date : transactionUpdate.Date;
-        
-        await _context.SaveChangesAsync();
-        
-        var response = new TransactionDto
-        (
-            transactionUpdate.Id, 
-            transactionUpdate.UserId, 
-            transactionUpdate.Date,
-            transactionUpdate.Amount,
-            transactionUpdate.Category.Name
-        );
 
-        return Ok(response);
+        return Ok(transactionUpdate);
     }
 
     [HttpDelete]
-    [Route("{id}")]
-    public async Task <IActionResult> DeleteTransaction([FromRoute] Guid id)
+    [Route("{userId}/{id}")]
+    public async Task <IActionResult> DeleteTransaction([FromRoute] Guid userId, [FromRoute] Guid id)
     {
-        var transaction = await  _context.Transactions.FirstOrDefaultAsync(s => s.Id == id);
-        if(transaction == null)
-            return NotFound();
-        
-        _context.Transactions.Remove(transaction);
-        await _context.SaveChangesAsync();
-        
+        await  _transactionService.DeleteTransactionAsync(userId, id);
         return NoContent();
     }
 }

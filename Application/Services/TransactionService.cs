@@ -19,7 +19,7 @@ public class TransactionService : ITransactionService
     public async Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync(Guid userId)
     {
         var transactions = await _repository.GetAllAsync(userId);
-        if (!transactions.Any())
+        if (transactions is null)
             return Array.Empty<TransactionDto>();
         
         var transactionDtos = transactions.Select(t => new TransactionDto
@@ -90,6 +90,8 @@ public class TransactionService : ITransactionService
         
         transaction.Date = updateTransactionDto.Date <= DateTime.Now ? updateTransactionDto.Date : throw new Exception("Invalid date");
         transaction.Amount = updateTransactionDto.Amount <= 0 ? updateTransactionDto.Amount : throw new Exception("Invalid amount");
+        
+        await _repository.UpdateAsync(transaction);
 
         var transactionNew = new TransactionDto
         (
@@ -101,5 +103,15 @@ public class TransactionService : ITransactionService
         );
         
         return transactionNew;
+    }
+
+    public async Task DeleteTransactionAsync(Guid userId, Guid id)
+    {
+        var transaction = await _repository.GetByIdAsync(id);
+        
+        if(transaction == null || transaction.UserId != userId)
+            throw new Exception("Invalid transaction");
+        
+        await _repository.DeleteAsync(id);
     }
 }

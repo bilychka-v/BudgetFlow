@@ -8,6 +8,6 @@ public interface ITransactionRepository
     Task<Transaction> GetByIdAsync(Guid id);
     Task<Transaction> AddAsync(Transaction transaction);
     Task<Transaction> UpdateAsync(Transaction transaction);
-    // Task<Transaction> Delete(Guid id);
+    Task DeleteAsync(Guid id);
     
 }

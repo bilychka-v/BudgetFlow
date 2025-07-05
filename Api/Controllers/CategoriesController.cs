@@ -31,7 +31,7 @@ public class CategoriesController:ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostCategory([FromBody] CategoryDto categoryDto)
+    public async Task<IActionResult> PostCategory([FromBody] CreateCategoryDto categoryDto)
     {
         var category = new Category
         {
@@ -44,12 +44,13 @@ public class CategoriesController:ControllerBase
         await _context.Categories.AddAsync(category);
         await _context.SaveChangesAsync();
         
-        var response = new CategoryDto(
+        var response = new CategoryDto
+        (
             category.Id, 
             category.UserId, 
             category.Name, 
             category.Type
-            );
+        );
         return Ok(response);
 
     }
