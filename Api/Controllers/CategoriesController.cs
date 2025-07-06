@@ -1,6 +1,6 @@
+using Application.Interfaces;
 using BudgetFlow.Dtos;
 using Db;
-using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,51 +8,34 @@ namespace BudgetFlow.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CategoriesController:ControllerBase
+public class CategoriesController : ControllerBase
 {
     private readonly DataContext _context;
-    public CategoriesController(DataContext context)
+    private readonly ICategoryService _categoryService;
+    public CategoriesController(DataContext context, ICategoryService categoryService)
     {
         _context = context;
+        _categoryService = categoryService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCategories()
+    [Route("{userId}")]
+    public async Task<IActionResult> GetCategories([FromRoute] Guid userId)
     {
-        var categories = await _context.Categories.ToListAsync();
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
         
-        var response = categories.Select(t=> new CategoryDto(
-            Id: t.Id,
-            UserId: t.UserId,
-            Name: t.Name,
-            Type: t.Type)).ToList();
+        var categories = await _categoryService.GetCategoriesAsync(userId);
         
-        return Ok(response);
+        return Ok(categories);
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostCategory([FromBody] CreateCategoryDto categoryDto)
+    public async Task<IActionResult> AddCategory([FromBody] CreateCategoryDto categoryDto)
     {
-        var category = new Category
-        {
-            Id = new Guid(),
-            UserId = categoryDto.UserId,
-            Name = categoryDto.Name,
-            Type = categoryDto.Type
-        };
+        var category = await _categoryService.AddCategoryAsync(categoryDto.UserId, categoryDto);
         
-        await _context.Categories.AddAsync(category);
-        await _context.SaveChangesAsync();
-        
-        var response = new CategoryDto
-        (
-            category.Id, 
-            category.UserId, 
-            category.Name, 
-            category.Type
-        );
-        return Ok(response);
-
+        return CreatedAtAction(nameof(GetCategories), new { categoryId = category.Id }, category);
     }
 
     [HttpPut]

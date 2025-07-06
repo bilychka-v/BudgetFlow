@@ -88,8 +88,8 @@ public class TransactionService : ITransactionService
         if(transaction == null || transaction.UserId != userId)
             throw new Exception("Invalid transaction");
         
-        transaction.Date = updateTransactionDto.Date <= DateTime.Now ? updateTransactionDto.Date : throw new Exception("Invalid date");
-        transaction.Amount = updateTransactionDto.Amount <= 0 ? updateTransactionDto.Amount : throw new Exception("Invalid amount");
+        transaction.Date = updateTransactionDto.Date > DateTime.Now ? updateTransactionDto.Date : throw new Exception("Invalid date");
+        transaction.Amount = updateTransactionDto.Amount > 0 ? updateTransactionDto.Amount : throw new Exception("Invalid amount");
         
         await _repository.UpdateAsync(transaction);
 

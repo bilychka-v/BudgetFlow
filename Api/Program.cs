@@ -32,8 +32,9 @@ public class Program
         
         builder.Services.AddScoped<ITransactionService, TransactionService>();
         builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-        
-        
+
+        builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddScoped<ICategoryService, CategoryService>();
         
 
         var app = builder.Build();
