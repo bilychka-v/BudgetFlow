@@ -1,3 +1,5 @@
+using System.Globalization;
+using Application.Exceptions;
 using Application.Interfaces;
 using BudgetFlow.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +52,7 @@ public class TransactionsController : ControllerBase
         
         if (transactionUpdate == null)
         {
-            return NotFound();
+            throw new NotFoundException("Transaction not found");
         }
 
         return Ok(transactionUpdate);

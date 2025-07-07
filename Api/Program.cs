@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Services;
 using Application.Repositories;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace BudgetFlow;
 
@@ -36,6 +37,11 @@ public class Program
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         
+        builder.Services.AddExceptionHandler(options =>
+        {
+            options.ExceptionHandlingPath = "/error";
+        });
+        
 
         var app = builder.Build();
 
@@ -51,18 +57,16 @@ public class Program
         app.UseAuthorization();
         app.MapControllers();
         
+        
+        app.UseMiddleware<ExceptionMiddleware>();
+        
 
         app.Run();
     }
 }
 
-// 6. Корисні ресурси
-// Офіційний гайд Microsoft по Exception Handling Middleware:
-// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-8.0
-// Приклад реалізації кастомних помилок в Clean Architecture:
-// https://github.com/jasontaylordev/CleanArchitecture/blob/main/src/Application/Common/Exceptions
-// Стаття: "Best practices for error handling in ASP.NET Core"
-// https://exceptionnotfound.net/error-handling-in-asp-net-core-web-api/
+
+
 
 // “gRPC in .NET 6 Tutorial” — IAmTimCorey
 // https://www.youtube.com/watch?v=F82Jt3g3-8c
