@@ -66,4 +66,37 @@ public class CategoryService : ICategoryService
         
         return categoryDto;
     }
+
+    public async Task<CategoryDto> UpdateCategoryAsync(Guid userId, Guid categoryId, UpdateCategoryDto updateCategoryDto)
+    {
+        var category = await _categoryRepository.GetCategoryAsync(categoryId);
+        
+        if(category == null || userId != category.UserId)
+            throw new Exception("Category does not exist");
+        
+        category.Name = updateCategoryDto.Name;
+        category.Type = updateCategoryDto.Type;
+        
+       await _categoryRepository.UpdateCategoryAsync(category);
+       
+       var categoryDto = new CategoryDto
+           (
+               Id: category.Id, 
+               category.UserId, 
+               category.Name, 
+               category.Type
+           );
+       
+       return categoryDto;
+    }
+
+    public async Task DeleteCategoryAsync(Guid userId, Guid categoryId)
+    {
+        var category = await _categoryRepository.GetCategoryAsync(categoryId);
+        
+        if(category == null || userId != category.UserId)
+            throw new Exception("Category does not exist");
+        
+        await _categoryRepository.DeleteCategoryAsync(category.Id);
+    }
 }

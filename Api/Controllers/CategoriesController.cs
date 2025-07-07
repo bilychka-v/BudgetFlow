@@ -2,7 +2,6 @@ using Application.Interfaces;
 using BudgetFlow.Dtos;
 using Db;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BudgetFlow.Controllers;
 
@@ -39,41 +38,22 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut]
-    [Route("{id}")]
-    public async Task<IActionResult> PutCategory(Guid id, [FromBody] UpdateCategoryDto categoryDto)
+    [Route("{userId}/{id}")]
+    public async Task<IActionResult> PutCategory([FromRoute] Guid id, [FromRoute] Guid userId, [FromBody] UpdateCategoryDto categoryDto)
     {
-        var category = await _context.Categories.FirstOrDefaultAsync(t => t.Id == id);
+        var category = await _categoryService.UpdateCategoryAsync(userId, id, categoryDto);
 
         if (category is null)
             return NotFound();
 
-        category.Name = categoryDto.Name;
-        category.Type = categoryDto.Type;
-
-        await _context.SaveChangesAsync();
-
-        var response = new CategoryDto(
-            category.Id,
-            category.UserId,
-            category.Name,
-            category.Type
-        );
-
-        return Ok(response);
+        return Ok(category);
     }
 
     [HttpDelete]
-    [Route("{id}")]
-    public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
+    [Route("{userId}/{id}")]
+    public async Task<IActionResult> DeleteCategory([FromRoute] Guid userId, [FromRoute] Guid id)
     {
-        var category = await _context.Categories.FirstOrDefaultAsync(t => t.Id == id);
-        
-        if (category is null)
-            return NotFound();
-        
-        _context.Categories.Remove(category);
-        await _context.SaveChangesAsync();
-        
+        await _categoryService.DeleteCategoryAsync(userId, id);
         return NoContent();
     }
 }

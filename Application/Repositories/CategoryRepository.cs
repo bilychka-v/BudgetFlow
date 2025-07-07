@@ -34,4 +34,18 @@ public class CategoryRepository:ICategoryRepository
          
          return category;
     }
+
+    public async Task<Category> UpdateCategoryAsync(Category category)
+    {
+        _context.Categories.Update(category);
+        await _context.SaveChangesAsync();
+        
+        return category;
+    }
+
+    public async Task DeleteCategoryAsync(Guid categoryId)
+    {
+        _context.Categories.Remove(new Category { Id = categoryId });
+        await _context.SaveChangesAsync();
+    }
 }
