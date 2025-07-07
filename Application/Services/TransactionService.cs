@@ -1,6 +1,5 @@
 using Application.Interfaces;
 using BudgetFlow.Dtos;
-using Db;
 using Domain;
 
 
@@ -8,17 +7,17 @@ namespace Application.Services;
 
 public class TransactionService : ITransactionService
 {
-    private readonly ITransactionRepository _repository;
-    private readonly DataContext _context;
-    public TransactionService(ITransactionRepository repository, DataContext context)
+    private readonly ITransactionRepository _transRep;
+    private readonly ICategoryRepository _catRep;
+    public TransactionService(ITransactionRepository transRep, ICategoryRepository catRep)
     {
-        _repository = repository;
-        _context = context;
+        _transRep = transRep;
+        _catRep = catRep;
     }
 
     public async Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync(Guid userId)
     {
-        var transactions = await _repository.GetAllAsync(userId);
+        var transactions = await _transRep.GetAllAsync(userId);
         if (transactions is null)
             return Array.Empty<TransactionDto>();
         
@@ -36,7 +35,7 @@ public class TransactionService : ITransactionService
 
     public async Task<TransactionDto> GetTransactionAsync(Guid userId, Guid id)
     {
-        var transaction = await _repository.GetByIdAsync(id);
+        var transaction = await _transRep.GetByIdAsync(id);
         if(transaction == null || transaction.UserId != userId)
             throw new Exception("Invalid transaction");
         
@@ -54,7 +53,7 @@ public class TransactionService : ITransactionService
 
     public async Task<TransactionDto> AddTransactionAsync(Guid userId, CreateTransactionDto transactionDto)
     {
-        var category = await _context.Categories.FindAsync(transactionDto.CategoryId);
+        var category = await _catRep.GetCategoryAsync(transactionDto.CategoryId);
         
         var transaction = new Transaction
         {
@@ -65,7 +64,7 @@ public class TransactionService : ITransactionService
             CategoryId = transactionDto.CategoryId
         };
         
-        await _repository.AddAsync(transaction);
+        await _transRep.AddAsync(transaction);
        
         var newTransactionDto = new TransactionDto
             (
@@ -81,9 +80,9 @@ public class TransactionService : ITransactionService
 
     public async Task<TransactionDto> UpdateTransactionAsync(Guid userId, Guid id, UpdateTransactionDto updateTransactionDto)
     {
-        var transaction = await _repository.GetByIdAsync(id);
+        var transaction = await _transRep.GetByIdAsync(id);
         
-        var category = await _context.Categories.FindAsync(transaction.CategoryId);
+        var category = await _catRep.GetCategoryAsync(updateTransactionDto.CategoryId);
         
         if(transaction == null || transaction.UserId != userId)
             throw new Exception("Invalid transaction");
@@ -91,7 +90,7 @@ public class TransactionService : ITransactionService
         transaction.Date = updateTransactionDto.Date > DateTime.Now ? updateTransactionDto.Date : throw new Exception("Invalid date");
         transaction.Amount = updateTransactionDto.Amount > 0 ? updateTransactionDto.Amount : throw new Exception("Invalid amount");
         
-        await _repository.UpdateAsync(transaction);
+        await _transRep.UpdateAsync(transaction);
 
         var transactionNew = new TransactionDto
         (
@@ -107,11 +106,11 @@ public class TransactionService : ITransactionService
 
     public async Task DeleteTransactionAsync(Guid userId, Guid id)
     {
-        var transaction = await _repository.GetByIdAsync(id);
+        var transaction = await _transRep.GetByIdAsync(id);
         
         if(transaction == null || transaction.UserId != userId)
             throw new Exception("Invalid transaction");
         
-        await _repository.DeleteAsync(id);
+        await _transRep.DeleteAsync(id);
     }
 }

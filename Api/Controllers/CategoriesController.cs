@@ -9,11 +9,9 @@ namespace BudgetFlow.Controllers;
 [Route("api/[controller]")]
 public class CategoriesController : ControllerBase
 {
-    private readonly DataContext _context;
     private readonly ICategoryService _categoryService;
-    public CategoriesController(DataContext context, ICategoryService categoryService)
+    public CategoriesController(ICategoryService categoryService)
     {
-        _context = context;
         _categoryService = categoryService;
     }
 
