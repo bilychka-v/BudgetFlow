@@ -1,5 +1,5 @@
-using System.Globalization;
 using Application.Exceptions;
+using Application.Filters;
 using Application.Interfaces;
 using BudgetFlow.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +19,9 @@ public class TransactionsController : ControllerBase
     
     [HttpGet]
     [Route("{userId}")]
-    public async Task<IActionResult> GetTransactions([FromRoute] Guid userId)
+    public async Task<IActionResult> GetTransactions([FromRoute] Guid userId, [FromQuery] TransactionFilter filter)
     {
-        var transactions = await _transactionService.GetAllTransactionsAsync(userId);
+        var transactions = await _transactionService.GetAllTransactionsAsync(userId, filter);
         return Ok(transactions);
     }
 

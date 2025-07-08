@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Application.Interfaces;
 using BudgetFlow.Dtos;
 using Db;
@@ -42,7 +43,7 @@ public class CategoriesController : ControllerBase
         var category = await _categoryService.UpdateCategoryAsync(userId, id, categoryDto);
 
         if (category is null)
-            return NotFound();
+           throw new NotFoundException("Category not found");
 
         return Ok(category);
     }

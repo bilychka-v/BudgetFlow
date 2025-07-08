@@ -1,3 +1,4 @@
+using Application.Filters;
 using Application.Interfaces;
 using BudgetFlow.Dtos;
 using Domain;
@@ -15,9 +16,9 @@ public class TransactionService : ITransactionService
         _catRep = catRep;
     }
 
-    public async Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync(Guid userId)
+    public async Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync(Guid userId, TransactionFilter filter)
     {
-        var transactions = await _transRep.GetAllAsync(userId);
+        var transactions = await _transRep.GetAllAsync(userId, filter);
         if (transactions is null)
             return Array.Empty<TransactionDto>();
         

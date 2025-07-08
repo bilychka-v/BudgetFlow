@@ -1,3 +1,5 @@
+using Application.Extensions;
+using Application.Filters;
 using Application.Interfaces;
 using Db;
 using Domain;
@@ -15,11 +17,12 @@ public class TransactionRepository: ITransactionRepository
         
     }
 
-    public async Task<IEnumerable<Transaction>> GetAllAsync(Guid userId)
+    public async Task<IEnumerable<Transaction>> GetAllAsync(Guid userId, TransactionFilter filter)
     {
         return await _context.Transactions
             .Where(t=>t.UserId == userId)
             .Include(t=>t.Category)
+            .Filter(filter)
             .ToListAsync();
     }
 
