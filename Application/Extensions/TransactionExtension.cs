@@ -18,6 +18,7 @@ public static class TransactionExtension
         
         if(filter.Min != null)
             query = query.Where(x=> x.Amount >= filter.Min.Value);
+        
         if(filter.Max != null)
             query = query.Where(x=> x.Amount <= filter.Max.Value);
         

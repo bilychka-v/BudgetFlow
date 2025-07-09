@@ -43,7 +43,7 @@ public class ExceptionMiddleware
         var errorResponse = new
         {
             message = exception.Message,
-            stackTrace = (int)statusCode
+            stackTrace = exception.StackTrace
         };
         
         var json = JsonSerializer.Serialize(errorResponse);

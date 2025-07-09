@@ -19,6 +19,7 @@ public class TransactionsController : ControllerBase
     
     [HttpGet]
     [Route("{userId}")]
+    // TODO without route (get userId from token)
     public async Task<IActionResult> GetTransactions([FromRoute] Guid userId, [FromQuery] TransactionFilter filter)
     {
         var transactions = await _transactionService.GetAllTransactionsAsync(userId, filter);
@@ -28,6 +29,7 @@ public class TransactionsController : ControllerBase
     [HttpPost]
     public async Task <IActionResult> AddTransaction([FromBody] CreateTransactionDto transactionDto)
     {
+        // TODO any conditionals in controller
         if(transactionDto.Amount <= 0)
             return BadRequest("Amount cannot be negative or equal to zero");
         
@@ -50,6 +52,7 @@ public class TransactionsController : ControllerBase
         
         var transactionUpdate = await _transactionService.UpdateTransactionAsync(userId, id, transaction);
         
+        // todo to service
         if (transactionUpdate == null)
         {
             throw new NotFoundException("Transaction not found");

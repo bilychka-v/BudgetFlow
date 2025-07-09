@@ -49,7 +49,7 @@ public class Program
             app.UseSwaggerUI();
         }
         
-        // app.UseMiddleware<ExceptionMiddleware>();
+        app.UseMiddleware<ExceptionMiddleware>();
 
         // app.UseHttpsRedirection();
 
