@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TLvQUhnqDjk=",
+  "dgSpecHash": "0y78MS57638=",
   "success": true,
   "projectFilePath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Application/Application.csproj",
   "expectedPackageFiles": [
@@ -34,6 +34,7 @@
     "/Users/viktoriyabilyk/.nuget/packages/mono.texttemplating/3.0.0/mono.texttemplating.3.0.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/npgsql/9.0.3/npgsql.9.0.3.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/npgsql.entityframeworkcore.postgresql/9.0.4/npgsql.entityframeworkcore.postgresql.9.0.4.nupkg.sha512",
+    "/Users/viktoriyabilyk/.nuget/packages/puppeteersharp/20.2.0/puppeteersharp.20.2.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/system.codedom/6.0.0/system.codedom.6.0.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/system.collections.immutable/7.0.0/system.collections.immutable.7.0.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/system.composition/7.0.0/system.composition.7.0.0.nupkg.sha512",

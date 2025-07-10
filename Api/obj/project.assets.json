@@ -744,6 +744,22 @@
           }
         }
       },
+      "PuppeteerSharp/20.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/PuppeteerSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/PuppeteerSharp.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/6.4.0": {
         "type": "package",
         "dependencies": {
@@ -1090,7 +1106,8 @@
           "Domain": "1.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.3",
           "Models": "1.0.0",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4",
+          "PuppeteerSharp": "20.2.0"
         },
         "compile": {
           "bin/placeholder/Application.dll": {}
@@ -1106,7 +1123,8 @@
           "DBContext": "1.0.0",
           "Domain": "1.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.3",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4",
+          "PuppeteerSharp": "20.2.0"
         },
         "compile": {
           "bin/placeholder/Db.dll": {}
@@ -1121,7 +1139,8 @@
         "dependencies": {
           "DBContext": "1.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.3",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4",
+          "PuppeteerSharp": "20.2.0"
         },
         "compile": {
           "bin/placeholder/Domain.dll": {}
@@ -1134,7 +1153,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "Domain": "1.0.0"
+          "Domain": "1.0.0",
+          "PuppeteerSharp": "20.2.0"
         },
         "compile": {
           "bin/placeholder/Models.dll": {}
@@ -2914,6 +2934,21 @@
         "postgresql.png"
       ]
     },
+    "PuppeteerSharp/20.2.0": {
+      "sha512": "EJkbNCjEX6L77DmO5O5IDE1ZrX+PyVAZWPC1lKB8XpXwlYe1popt+1c8UzfspOX8XHLD9jPIZwAI/Hx5X93pVg==",
+      "type": "package",
+      "path": "puppeteersharp/20.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net8.0/PuppeteerSharp.dll",
+        "lib/net8.0/PuppeteerSharp.xml",
+        "lib/netstandard2.0/PuppeteerSharp.dll",
+        "lib/netstandard2.0/PuppeteerSharp.xml",
+        "puppeteersharp.20.2.0.nupkg.sha512",
+        "puppeteersharp.nuspec"
+      ]
+    },
     "Swashbuckle.AspNetCore/6.4.0": {
       "sha512": "eUBr4TW0up6oKDA5Xwkul289uqSMgY0xGN4pnbOIBqCcN9VKGGaPvHX3vWaG/hvocfGDP+MGzMA0bBBKz2fkmQ==",
       "type": "package",
@@ -3479,6 +3514,7 @@
       "Microsoft.EntityFrameworkCore.Design >= 9.0.3",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.3",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 9.0.4",
+      "PuppeteerSharp >= 20.2.0",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
@@ -3558,6 +3594,10 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "[9.0.4, )"
+          },
+          "PuppeteerSharp": {
+            "target": "Package",
+            "version": "[20.2.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OJOy1U6Qfc4=",
+  "dgSpecHash": "IicSaoaWGCk=",
   "success": true,
   "projectFilePath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Api/Api.csproj",
   "expectedPackageFiles": [
@@ -37,6 +37,7 @@
     "/Users/viktoriyabilyk/.nuget/packages/mono.texttemplating/3.0.0/mono.texttemplating.3.0.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/npgsql/9.0.3/npgsql.9.0.3.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/npgsql.entityframeworkcore.postgresql/9.0.4/npgsql.entityframeworkcore.postgresql.9.0.4.nupkg.sha512",
+    "/Users/viktoriyabilyk/.nuget/packages/puppeteersharp/20.2.0/puppeteersharp.20.2.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

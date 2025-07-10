@@ -1,7 +1,6 @@
 using Application.Exceptions;
 using Application.Interfaces;
 using BudgetFlow.Dtos;
-using Db;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetFlow.Controllers;
