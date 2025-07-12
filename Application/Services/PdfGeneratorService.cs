@@ -15,7 +15,9 @@ public class PdfGeneratorService
     public PdfGeneratorService(DataContext dataContext)
     {
         _dataContext = dataContext;
-        _razorEngine = new RazorLightEngineBuilder().UseFileSystemProject(Path.Combine("/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Application/Tamplates"))
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "../Application/Tamplates");
+
+        _razorEngine = new RazorLightEngineBuilder().UseFileSystemProject(Path.Combine(path))
             .UseMemoryCachingProvider()
             .Build();
     }

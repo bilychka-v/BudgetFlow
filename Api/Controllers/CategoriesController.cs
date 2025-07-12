@@ -19,9 +19,6 @@ public class CategoriesController : ControllerBase
     [Route("{userId}")]
     public async Task<IActionResult> GetCategories([FromRoute] Guid userId)
     {
-        if(!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
         var categories = await _categoryService.GetCategoriesAsync(userId);
         
         return Ok(categories);
@@ -30,9 +27,12 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddCategory([FromBody] CreateCategoryDto categoryDto)
     {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
         var category = await _categoryService.AddCategoryAsync(categoryDto.UserId, categoryDto);
         
-        return CreatedAtAction(nameof(GetCategories), new { categoryId = category.Id }, category);
+        return CreatedAtAction(nameof(GetCategories), new { userId = category.UserId }, category);
     }
 
     [HttpPut]

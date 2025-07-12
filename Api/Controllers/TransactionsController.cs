@@ -29,6 +29,9 @@ public class TransactionsController : ControllerBase
     [HttpPost]
     public async Task <IActionResult> AddTransaction([FromBody] CreateTransactionDto transactionDto)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
         // TODO any conditionals in controller
         if(transactionDto.Amount <= 0)
             return BadRequest("Amount cannot be negative or equal to zero");
