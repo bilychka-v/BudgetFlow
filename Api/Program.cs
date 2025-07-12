@@ -38,7 +38,8 @@ public class Program
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         
-        builder.Services.AddSingleton<PdfGeneratorService>();
+        // builder.Services.AddSingleton<PdfGeneratorService>();
+        builder.Services.AddScoped<PdfGeneratorService>();
 
         var app = builder.Build();
 

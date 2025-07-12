@@ -1,19 +1,39 @@
+using Application.Extensions;
+using Application.Filters;
+using Db;
+using Microsoft.EntityFrameworkCore;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
+using RazorLight;
 
 namespace Application.Services;
 
 public class PdfGeneratorService
 {
-    public async Task<byte[]> GeneratePdfAsync(string htmlContent)
+    private readonly DataContext _dataContext;
+    private readonly RazorLightEngine _razorEngine;
+    public PdfGeneratorService(DataContext dataContext)
     {
-        await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        _dataContext = dataContext;
+        _razorEngine = new RazorLightEngineBuilder().UseFileSystemProject(Path.Combine("/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Application/Tamplates"))
+            .UseMemoryCachingProvider()
+            .Build();
+    }
+    public async Task<byte[]> GeneratePdfAsync(TransactionFilter filter)
+    {
+        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
             Headless = true,
-            ExecutablePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
         });
         
-        await using var page = await browser.NewPageAsync();
+        var transactions = await _dataContext.Transactions
+            .Include(t=> t.Category)
+            .Filter(filter)
+            .ToListAsync();
+        
+        var page = await browser.NewPageAsync();
+
+        var htmlContent = await _razorEngine.CompileRenderAsync("Report.cshtml", transactions);
         
         await page.SetContentAsync(htmlContent);
         

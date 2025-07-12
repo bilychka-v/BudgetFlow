@@ -1,3 +1,4 @@
+using Application.Filters;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,23 +17,10 @@ public class PdfController:ControllerBase
     }
 
     [HttpGet("generate")]
-    public async Task<IActionResult> GeneratePdf()
+    public async Task<IActionResult> GeneratePdf([FromQuery] TransactionFilter filter)
     {
-        var html = @"
-            <html>
-                <head>
-                    <style>
-                        body { font-family: Arial; }
-                        h1 { color: #336699; }
-                    </style>
-                </head>
-                <body>
-                    <h1>BudgetFlow Звіт</h1>
-                    <p> інформація про транзакції, категорії, суми витрат.</p>
-                </body>
-            </html>";
 
-        var pdfBytes = await _pdfGeneratorService.GeneratePdfAsync(html);
+        var pdfBytes = await _pdfGeneratorService.GeneratePdfAsync(filter);
 
         return File(pdfBytes, "application/pdf", "report.pdf");
     }
