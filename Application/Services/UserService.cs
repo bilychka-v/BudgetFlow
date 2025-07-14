@@ -2,6 +2,7 @@ using Application.Interfaces;
 using BudgetFlow.Dtos;
 using Domain;
 using Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Services;
 
@@ -40,6 +41,18 @@ public class UserService : IUserService
         
         return userRegisterDto;
         
+    }
+
+    public async Task<string> Login(string email, string password)
+    {
+        var user = await _userRepository.GetByEmail(email);
+        
+        var result = _passwordHasher.VerifyHashedPassword(user.PasswordHash, password);
+        
+        if(result == false)
+            throw new Exception("Invalid password");
+        
+        return "";
     }
     
 }
