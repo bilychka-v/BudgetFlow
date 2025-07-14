@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "O5Q+kADOibQ=",
+  "dgSpecHash": "Dca8O1f52pw=",
   "success": true,
   "projectFilePath": "/Users/viktoriyabilyk/RiderProjects/BudgetFlow/Db/Db.csproj",
   "expectedPackageFiles": [
+    "/Users/viktoriyabilyk/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/dbcontext/1.0.0/dbcontext.1.0.0.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/viktoriyabilyk/.nuget/packages/microsoft.aspnetcore.mvc.razor.extensions/6.0.0/microsoft.aspnetcore.mvc.razor.extensions.6.0.0.nupkg.sha512",

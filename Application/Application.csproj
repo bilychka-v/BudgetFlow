@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
       <PackageReference Include="DBContext" Version="1.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.18" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
@@ -28,6 +29,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Db\Db.csproj" />
+      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
       <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Services;
 using Application.Repositories;
 using Application.Interfaces;
+using Infrastructure;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace BudgetFlow;
@@ -38,8 +39,12 @@ public class Program
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         
-        // builder.Services.AddSingleton<PdfGeneratorService>();
         builder.Services.AddScoped<PdfGeneratorService>();
+        
+        builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+        builder.Services.AddScoped<IUserService, UserService>();
 
         var app = builder.Build();
 
