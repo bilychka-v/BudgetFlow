@@ -16,8 +16,8 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         //
         builder.WebHost.UseUrls("http://localhost:5236");
-
-
+        
+        builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
         
         builder.Services.AddDbContext<DataContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectBd")));
@@ -42,9 +42,12 @@ public class Program
         builder.Services.AddScoped<PdfGeneratorService>();
         
         builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+        
         builder.Services.AddScoped<IUserRepository, UserRepository>();
-
         builder.Services.AddScoped<IUserService, UserService>();
+        
+        builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+        // builder.Services.AddScoped<JwtOptions>();
 
         var app = builder.Build();
 
@@ -60,6 +63,7 @@ public class Program
         // app.UseHttpsRedirection();
 
         app.UseAuthorization();
+        app.UseAuthentication();
         app.MapControllers();
         
         app.Run();

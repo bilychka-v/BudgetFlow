@@ -10,11 +10,13 @@ public class UserService : IUserService
 {
     private readonly IPasswordHasher _passwordHasher;
     private readonly IUserRepository _userRepository;
+    private readonly IJwtProvider _jwtProvider;
 
-    public UserService(IPasswordHasher passwordHasher, IUserRepository userRepository)
+    public UserService(IPasswordHasher passwordHasher, IUserRepository userRepository, IJwtProvider jwtProvider)
     {
         _passwordHasher = passwordHasher;
         _userRepository = userRepository;
+        _jwtProvider = jwtProvider;
     }
 
     public async Task<UserRegisterDto> Register(string username, string email,  string password)
@@ -33,7 +35,6 @@ public class UserService : IUserService
         
         var userRegisterDto = new UserRegisterDto
             (
-                user.Id, 
                 user.UserName, 
                 user.Email, 
                 user.PasswordHash
@@ -52,7 +53,9 @@ public class UserService : IUserService
         if(result == false)
             throw new Exception("Invalid password");
         
-        return "";
+        var token = _jwtProvider.GenerateToken(user);
+        
+        return token;
     }
     
 }
