@@ -18,16 +18,18 @@ public class JwtProvider : IJwtProvider
     public string GenerateToken(User user)
     {
         Claim[] claims = [new("userId", user.Id.ToString())];
+        
         var signingCredentials = new SigningCredentials
             (
                 new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_options.SecretKey)), 
                 SecurityAlgorithms.HmacSha256Signature);
         
-        var token = new JwtSecurityToken(
+        var token = new JwtSecurityToken
+        (
             claims: claims,
             signingCredentials: signingCredentials,
             expires: DateTime.UtcNow.AddHours(_options.ExpireHours)
-            );
+        );
         
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
         
