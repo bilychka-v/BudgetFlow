@@ -16,10 +16,9 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{userId}")]
-    public async Task<IActionResult> GetCategories([FromRoute] Guid userId)
+    public async Task<IActionResult> GetCategories()
     {
-        var categories = await _categoryService.GetCategoriesAsync(userId);
+        var categories = await _categoryService.GetCategoriesAsync();
         
         return Ok(categories);
     }
@@ -30,16 +29,16 @@ public class CategoriesController : ControllerBase
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
         
-        var category = await _categoryService.AddCategoryAsync(categoryDto.UserId, categoryDto);
+        var category = await _categoryService.AddCategoryAsync(categoryDto);
         
         return CreatedAtAction(nameof(GetCategories), new { userId = category.UserId }, category);
     }
 
     [HttpPut]
-    [Route("{userId}/{id}")]
-    public async Task<IActionResult> PutCategory([FromRoute] Guid id, [FromRoute] Guid userId, [FromBody] UpdateCategoryDto categoryDto)
+    [Route("{id}")]
+    public async Task<IActionResult> PutCategory([FromRoute] Guid id, [FromBody] UpdateCategoryDto categoryDto)
     {
-        var category = await _categoryService.UpdateCategoryAsync(userId, id, categoryDto);
+        var category = await _categoryService.UpdateCategoryAsync(id, categoryDto);
 
         if (category is null)
            throw new NotFoundException("Category not found");
@@ -48,10 +47,10 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("{userId}/{id}")]
-    public async Task<IActionResult> DeleteCategory([FromRoute] Guid userId, [FromRoute] Guid id)
+    [Route("{id}")]
+    public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
     {
-        await _categoryService.DeleteCategoryAsync(userId, id);
+        await _categoryService.DeleteCategoryAsync(id);
         return NoContent();
     }
 }

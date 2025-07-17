@@ -12,9 +12,9 @@ public class CategoryService : ICategoryService
     {
         _categoryRepository = categoryRepository;
     }
-    public async Task<IEnumerable<CategoryDto>> GetCategoriesAsync(Guid userId)
+    public async Task<IEnumerable<CategoryDto>> GetCategoriesAsync()
     {
-        var categories = await _categoryRepository.GetCategoriesAsync(userId);
+        var categories = await _categoryRepository.GetCategoriesAsync();
 
         var categoriesDto = categories
             .Select(t => new CategoryDto
@@ -27,11 +27,11 @@ public class CategoryService : ICategoryService
         return categoriesDto;
     }
 
-    public async Task<CategoryDto> GetCategoryAsync(Guid userId, Guid id)
+    public async Task<CategoryDto> GetCategoryAsync(Guid id)
     {
         var category = await _categoryRepository.GetCategoryAsync(id);
         
-        if(category == null || userId != category.UserId)
+        if(category == null)
             throw new Exception("Category does not exist");
         
         var categoryDto = new CategoryDto
@@ -44,12 +44,12 @@ public class CategoryService : ICategoryService
         return categoryDto;
     }
 
-    public async Task<CategoryDto> AddCategoryAsync(Guid userId, CreateCategoryDto createCategoryDto)
+    public async Task<CategoryDto> AddCategoryAsync(CreateCategoryDto createCategoryDto)
     {
         var category = new Category
         {
             Id = Guid.NewGuid(),
-            UserId = userId, 
+            UserId = createCategoryDto.UserId, 
             Name = createCategoryDto.Name,
             Type = createCategoryDto.Type
         };
@@ -67,11 +67,11 @@ public class CategoryService : ICategoryService
         return categoryDto;
     }
 
-    public async Task<CategoryDto> UpdateCategoryAsync(Guid userId, Guid categoryId, UpdateCategoryDto updateCategoryDto)
+    public async Task<CategoryDto> UpdateCategoryAsync(Guid categoryId, UpdateCategoryDto updateCategoryDto)
     {
         var category = await _categoryRepository.GetCategoryAsync(categoryId);
         
-        if(category == null || userId != category.UserId)
+        if(category == null)
             throw new Exception("Category does not exist");
         
         category.Name = updateCategoryDto.Name;
@@ -90,11 +90,11 @@ public class CategoryService : ICategoryService
        return categoryDto;
     }
 
-    public async Task DeleteCategoryAsync(Guid userId, Guid categoryId)
+    public async Task DeleteCategoryAsync(Guid categoryId)
     {
         var category = await _categoryRepository.GetCategoryAsync(categoryId);
         
-        if(category == null || userId != category.UserId)
+        if(category == null)
             throw new Exception("Category does not exist");
         
         await _categoryRepository.DeleteCategoryAsync(category.Id);

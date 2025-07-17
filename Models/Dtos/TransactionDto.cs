@@ -5,5 +5,6 @@ public record TransactionDto(
     Guid UserId,
     DateTime Date,
     decimal Amount,
-    string CategoryName
+    string CategoryName,
+    string CategoryType
     );
