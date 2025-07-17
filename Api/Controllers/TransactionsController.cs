@@ -18,11 +18,9 @@ public class TransactionsController : ControllerBase
     }
     
     [HttpGet]
-    [Route("{userId}")]
-    // TODO without route (get userId from token)
-    public async Task<IActionResult> GetTransactions([FromRoute] Guid userId, [FromQuery] TransactionFilter filter)
+    public async Task<IActionResult> GetTransactions([FromQuery] TransactionFilter filter)
     {
-        var transactions = await _transactionService.GetAllTransactionsAsync(userId, filter);
+        var transactions = await _transactionService.GetAllTransactionsAsync(filter);
         return Ok(transactions);
     }
 
@@ -47,13 +45,13 @@ public class TransactionsController : ControllerBase
     }
 
     [HttpPut]
-    [Route("{userId}/{id}")]
-    public async Task <IActionResult> UpdateTransaction([FromRoute] Guid userId, [FromRoute] Guid id, [FromBody] UpdateTransactionDto transaction)
+    [Route("{id}")]
+    public async Task <IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] UpdateTransactionDto transaction)
     {
         if(!ModelState.IsValid)
             return BadRequest();
         
-        var transactionUpdate = await _transactionService.UpdateTransactionAsync(userId, id, transaction);
+        var transactionUpdate = await _transactionService.UpdateTransactionAsync(id, transaction);
         
         // todo to service
         if (transactionUpdate == null)
@@ -65,10 +63,10 @@ public class TransactionsController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("{userId}/{id}")]
-    public async Task <IActionResult> DeleteTransaction([FromRoute] Guid userId, [FromRoute] Guid id)
+    [Route("{id}")]
+    public async Task <IActionResult> DeleteTransaction([FromRoute] Guid id)
     {
-        await  _transactionService.DeleteTransactionAsync(userId, id);
+        await  _transactionService.DeleteTransactionAsync(id);
         return NoContent();
     }
 }

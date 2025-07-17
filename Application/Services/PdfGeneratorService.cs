@@ -1,5 +1,6 @@
 using Application.Extensions;
 using Application.Filters;
+using Application.Interfaces;
 using Db;
 using Microsoft.EntityFrameworkCore;
 using PuppeteerSharp;
@@ -8,7 +9,7 @@ using RazorLight;
 
 namespace Application.Services;
 
-public class PdfGeneratorService
+public class PdfGeneratorService : IPdfGeneratorService
 {
     private readonly DataContext _dataContext;
     private readonly RazorLightEngine _razorEngine;

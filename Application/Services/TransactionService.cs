@@ -16,9 +16,9 @@ public class TransactionService : ITransactionService
         _catRep = catRep;
     }
 
-    public async Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync(Guid userId, TransactionFilter filter)
+    public async Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync(TransactionFilter filter)
     {
-        var transactions = await _transRep.GetAllAsync(userId, filter);
+        var transactions = await _transRep.GetAllAsync(filter);
         if (transactions is null)
             return Array.Empty<TransactionDto>();
         
@@ -28,7 +28,8 @@ public class TransactionService : ITransactionService
             UserId : t.UserId,
             Date : t.Date,
             Amount : t.Amount,
-            CategoryName : t.Category.Name
+            CategoryName : t.Category.Name,
+            CategoryType: t.Category.Type == CategoryType.Expense ? "Expense" : "Income"
         )).ToList();
         
         return transactionDtos;
@@ -46,7 +47,8 @@ public class TransactionService : ITransactionService
             UserId: userId, 
             Date: transaction.Date, 
             Amount: transaction.Amount,
-            CategoryName: transaction.Category.Name
+            CategoryName: transaction.Category.Name,
+            CategoryType: transaction.Category.Type == CategoryType.Expense ? "Expense" : "Income"
         );
         
         return transactionDto;
@@ -73,19 +75,20 @@ public class TransactionService : ITransactionService
                 transaction.UserId, 
                 transaction.Date, 
                 transaction.Amount,
-                category.Name
+                category.Name,
+                category.Type == CategoryType.Expense ? "Expense" : "Income"
             );
         
         return newTransactionDto;
     }
 
-    public async Task<TransactionDto> UpdateTransactionAsync(Guid userId, Guid id, UpdateTransactionDto updateTransactionDto)
+    public async Task<TransactionDto> UpdateTransactionAsync(Guid id, UpdateTransactionDto updateTransactionDto)
     {
         var transaction = await _transRep.GetByIdAsync(id);
         
         var category = await _catRep.GetCategoryAsync(updateTransactionDto.CategoryId);
         
-        if(transaction == null || transaction.UserId != userId)
+        if(transaction == null)
             throw new Exception("Invalid transaction");
         
         transaction.Date = updateTransactionDto.Date > DateTime.Now ? updateTransactionDto.Date : throw new Exception("Invalid date");
@@ -99,17 +102,18 @@ public class TransactionService : ITransactionService
             UserId: transaction.UserId,
             Date: transaction.Date,
             Amount: transaction.Amount,
-            CategoryName: category.Name
+            CategoryName: category.Name,
+            CategoryType: category.Type == CategoryType.Expense ? "Expense" : "Income"
         );
         
         return transactionNew;
     }
 
-    public async Task DeleteTransactionAsync(Guid userId, Guid id)
+    public async Task DeleteTransactionAsync(Guid id)
     {
         var transaction = await _transRep.GetByIdAsync(id);
         
-        if(transaction == null || transaction.UserId != userId)
+        if(transaction == null)
             throw new Exception("Invalid transaction");
         
         await _transRep.DeleteAsync(id);

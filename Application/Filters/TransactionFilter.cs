@@ -7,4 +7,5 @@ public class TransactionFilter
     public DateTime? To  { get; set; }
     public decimal? Min  { get; set; }
     public decimal? Max  { get; set; }
+    public string? CategoryTyoe  { get; set; }
 }

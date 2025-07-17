@@ -14,7 +14,7 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        //
+        
         builder.WebHost.UseUrls("http://localhost:5236");
         
         builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
@@ -39,7 +39,7 @@ public class Program
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         
-        builder.Services.AddScoped<PdfGeneratorService>();
+        builder.Services.AddScoped<IPdfGeneratorService, PdfGeneratorService>();
         
         builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
         

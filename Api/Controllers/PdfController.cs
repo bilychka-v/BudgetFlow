@@ -1,5 +1,5 @@
 using Application.Filters;
-using Application.Services;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetFlow.Controllers;
@@ -7,11 +7,11 @@ namespace BudgetFlow.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class PdfController:ControllerBase
+public class PdfController : ControllerBase
 {
-    private readonly PdfGeneratorService _pdfGeneratorService;
+    private readonly IPdfGeneratorService _pdfGeneratorService;
     
-    public PdfController(PdfGeneratorService pdfGeneratorService)
+    public PdfController(IPdfGeneratorService pdfGeneratorService)
     {
         _pdfGeneratorService = pdfGeneratorService;
     }

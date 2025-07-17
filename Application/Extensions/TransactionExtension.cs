@@ -22,6 +22,9 @@ public static class TransactionExtension
         if(filter.Max != null)
             query = query.Where(x=> x.Amount <= filter.Max.Value);
         
+        if(!string.IsNullOrEmpty(filter.CategoryTyoe))
+            query = query.Where(x=> (x.Category.Type == CategoryType.Expense ? "Expense" : "Income") == filter.CategoryTyoe);
+        
         return query;
             
     }
