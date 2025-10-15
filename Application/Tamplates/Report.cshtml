@@ -17,6 +17,7 @@
                 <th scope="col">Category</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Date</th>
+                <th scope="col">Type</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@
                         <td>@t.Category.Name</td>
                         <td>@t.Amount</td>
                         <td>@t.Date.ToString("yyyy-MM-dd")</td>
+                        <td>@t.Category.Type</td>
                     </tr>
                 }
         </tbody>
