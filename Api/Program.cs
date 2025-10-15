@@ -46,10 +46,26 @@ public class Program
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IUserService, UserService>();
         
+        builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        
         builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-        // builder.Services.AddScoped<JwtOptions>();
+        
+        builder.Services.AddScoped<JwtOptions>();
+        
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAngularDev", policy =>
+            {
+                policy.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
 
         var app = builder.Build();
+        
+        app.UseCors("AllowAngularDev");
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

@@ -16,4 +16,5 @@ RUN dotnet publish "Api.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
+EXPOSE 5010
 ENTRYPOINT ["dotnet", "Api.dll"]
